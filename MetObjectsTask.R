@@ -4,7 +4,6 @@
 library(data.table)
 library(stringr)
 library(foreach)
-library(caret)
 
 #---
 #FUNCs
@@ -85,7 +84,7 @@ uni_tags[order(Tags_by_Exposed[,1]-Tags_by_Exposed[,2],decreasing=FALSE)[1:20]]
 
 
 
-
+###How the tags are combined together
 tags100 <- uni_tags[order(Tags_by_Exposed[,1]-Tags_by_Exposed[,2],decreasing=TRUE)[1:100]] 
 
 tags100df <- foreach(tag=tags100,.combine=cbind) %do% {
@@ -94,4 +93,8 @@ tags100df <- foreach(tag=tags100,.combine=cbind) %do% {
 
 tags100km <- kmeans(tags100df, centers=5)
 
-tags100[tags100km$centers[5,]>0.01]
+tags100[tags100km$centers[1,]>0.0025]
+tags100[tags100km$centers[2,]>0.0025]
+tags100[tags100km$centers[3,]>0.0025]
+tags100[tags100km$centers[4,]>0.005]
+tags100[tags100km$centers[5,]>0.005]
